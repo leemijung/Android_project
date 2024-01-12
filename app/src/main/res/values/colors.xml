@@ -10,4 +10,11 @@
 
     <color name="textColor">#00FFBF</color>
     <color name="back">#000D6B</color>
+    <color name="gray">#3C3042</color>
+    <color name="mood_backgroud">#9C19E0</color>
+    <color name="search_backgroud">#99DDCC</color>
+
+
+
+
 </resources>

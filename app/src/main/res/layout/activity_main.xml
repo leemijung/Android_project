@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,6 +14,7 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
+            android:id="@+id/start_button"
             android:layout_width="177dp"
             android:layout_height="177dp"
             android:orientation="horizontal"
@@ -32,6 +32,10 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="Mood"
+                    android:shadowColor="#33000000"
+                    android:shadowDx="7.0"
+                    android:shadowDy="7.0"
+                    android:shadowRadius="7.0"
                     android:textColor="@color/white"
                     android:textSize="45sp" />
 
@@ -40,6 +44,10 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="Up"
+                    android:shadowColor="#33000000"
+                    android:shadowDx="7.0"
+                    android:shadowDy="7.0"
+                    android:shadowRadius="7.0"
                     android:textColor="@color/white"
                     android:textSize="65sp"
                     android:textStyle="bold" />
@@ -50,6 +58,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="나의 기분에 맞춘 영화, 드라마 찾기"
+        android:shadowColor="#33000000"
+        android:shadowDx="7.0"
+        android:shadowDy="7.0"
+        android:shadowRadius="7.0"
         android:textSize="15sp"
         android:layout_marginTop="30dp"
         android:layout_gravity="center"

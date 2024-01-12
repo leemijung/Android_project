@@ -14,89 +14,101 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="300dp"
+        <FrameLayout
+            android:id="@+id/frist_button"
+            android:layout_width="210dp"
             android:layout_height="60dp"
-            android:layout_gravity="center"
-            android:orientation="horizontal"
+            android:layout_marginLeft="30dp"
             android:background="@drawable/rounded_corner2">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="오늘 하루 어떠셨나요 ?"
+                android:shadowColor="#33000000"
+                android:shadowDx="7.0"
+                android:shadowDy="7.0"
+                android:shadowRadius="7.0"
                 android:textSize="20dp"
                 android:layout_gravity="center"
-                android:textColor="@color/black" />
+                android:textColor="@color/gray" />
 
-        </LinearLayout>
-
-
+        </FrameLayout>
 
     </LinearLayout>
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="추천 받고 싶은 방법을 선택해주세요"
-        android:textSize="15dp"
+    <FrameLayout
+        android:id="@+id/frist_button2"
+        android:layout_width="250dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center"
         android:layout_marginTop="50dp"
-        android:layout_gravity="center"
-        android:textColor="@color/white" />
+        android:background="@drawable/rounded_corner2">
 
-    <LinearLayout
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:shadowColor="#33000000"
+            android:shadowDx="7.0"
+            android:shadowDy="7.0"
+            android:shadowRadius="7.0"
+            android:text="추천 받고 싶은 방법을 선택해주세요"
+            android:textColor="@color/gray"
+            android:textSize="15dp" />
 
-        <LinearLayout
-            android:layout_marginTop="30dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+    </FrameLayout>
 
             <LinearLayout
-                android:layout_width="150dp"
-                android:layout_height="60dp"
-                android:layout_gravity="center"
+                android:layout_marginTop="100dp"
                 android:orientation="horizontal"
-                android:background="@drawable/rounded_corner3">
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="기분에 맞춰 추천받을래"
-                    android:textSize="20dp"
-                    android:layout_gravity="center"
-                    android:textColor="@color/black" />
+                <FrameLayout
+                    android:id="@+id/mood_button"
+                    android:layout_width="100dp"
+                    android:layout_height="150dp"
+                    android:background="@drawable/rounded_corner3">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="기분에 맞춰\n추천받을래"
+                        android:textSize="16dp"
+                        android:layout_gravity="center"
+                        android:textColor="@color/white" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/search_button"
+                    android:layout_width="100dp"
+                    android:layout_height="150dp"
+                    android:layout_marginLeft="20dp"
+                    android:background="@drawable/rounded_corner3">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="검색해서\n추천받을래"
+                        android:textSize="16dp"
+                        android:layout_gravity="center"
+                        android:textColor="@color/white" />
+
+                </FrameLayout>
 
 
 
             </LinearLayout>
+        </FrameLayout>
 
-            <LinearLayout
-                android:layout_width="300dp"
-                android:layout_height="60dp"
-                android:layout_gravity="center"
-                android:orientation="horizontal"
-                android:background="@drawable/rounded_corner3">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="오늘 하루 어떠셨나요 ?"
-                    android:textSize="20dp"
-                    android:layout_gravity="center"
-                    android:textColor="@color/black" />
-
-
-
-            </LinearLayout>
-
-
-
-        </LinearLayout>
-    </LinearLayout>
 </LinearLayout>

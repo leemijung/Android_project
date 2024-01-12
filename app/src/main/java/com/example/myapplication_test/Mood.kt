@@ -3,14 +3,14 @@ package com.example.myapplication_test
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.short_description.*
+import kotlinx.android.synthetic.main.mood.*
 
-class Short_description : AppCompatActivity() {
+class Mood  : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.short_description)
+        setContentView(R.layout.mood)
 
-        start_button.setOnClickListener {
+        back_button.setOnClickListener {
             startActivity(Intent(applicationContext, Selection::class.java))
             finish()
         }
