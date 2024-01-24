@@ -1,6 +1,7 @@
 package com.example.myapplication_test
 
 import android.animation.Animator
+import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
@@ -15,42 +16,41 @@ class Selection  : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.selection)
 
-        //오늘 하루 어떠셨나요? 말풍선 작동
-        val fadeInAnimator = ObjectAnimator.ofFloat(frist_button, View.ALPHA, 0f, 1f)
-        fadeInAnimator.duration = 1000 // 애니메이션 지속 시간 (밀리초)
-        fadeInAnimator.interpolator = AccelerateDecelerateInterpolator()
+        //초기 위치 설정
+        ballon1.translationY = 1000f
+        //처음에 투명하게 설정
+        ballon1.alpha = 0f
+        // ObjectAnimator를 사용하여 alpha 속성을 변경하여 나타나는 애니메이션 생성
+        val translateYAnimator1 = ObjectAnimator.ofFloat(ballon1, "translationY", 1000f, 0f)
+        translateYAnimator1.duration = 4000 // 애니메이션 지속 시간 (밀리초)
+        val alphaAnimator1 = ObjectAnimator.ofFloat(ballon1, "alpha", 0f, 1f)
+        alphaAnimator1.duration = 2000 // 애니메이션 지속 시간 (밀리초)
 
-        val fadeOutAnimator = ObjectAnimator.ofFloat(frist_button, View.ALPHA, 1f, 0f)
-        fadeOutAnimator.duration = 1000
-        fadeOutAnimator.interpolator = AccelerateDecelerateInterpolator()
+        val animatorSet1 = AnimatorSet()
+        animatorSet1.playTogether(translateYAnimator1, alphaAnimator1)
 
-        fadeOutAnimator.addListener(object : android.animation.AnimatorListenerAdapter() {
-            override fun onAnimationEnd(animation: Animator) {
-                super.onAnimationEnd(animation)
-                fadeInAnimator.start()
-            }
-        })
-
-        fadeOutAnimator.start()
+        // 애니메이션 시작
+        animatorSet1.start()
 
 
-        //추천 받고 싶은 방법을 선택해주세요 말풍선 작동
-        val fadeInAnimator2 = ObjectAnimator.ofFloat(frist_button2, View.ALPHA, 0f, 1f)
-        fadeInAnimator2.duration = 1000 // 애니메이션 지속 시간 (밀리초)
-        fadeInAnimator2.interpolator = AccelerateDecelerateInterpolator()
 
-        val fadeOutAnimator2 = ObjectAnimator.ofFloat(frist_button2, View.ALPHA, 1f, 0f)
-        fadeOutAnimator2.duration = 1000
-        fadeOutAnimator2.interpolator = AccelerateDecelerateInterpolator()
+        //초기 위치 설정
+        ballon2.translationY = 1000f
+        //처음에 투명하게 설정
+        ballon2.alpha = 0f
+        // ObjectAnimator를 사용하여 alpha 속성을 변경하여 나타나는 애니메이션 생성
+        val translateYAnimator2 = ObjectAnimator.ofFloat(ballon2, "translationY", 1000f, 0f)
+        translateYAnimator2.duration = 2000 // 애니메이션 지속 시간 (밀리초)
+        translateYAnimator2.startDelay = 2000 // 애니메이션 시작 전 대기 시간 (밀리초)
+        val alphaAnimator2 = ObjectAnimator.ofFloat(ballon2, "alpha", 0f, 1f)
+        alphaAnimator2.duration = 2000 // 애니메이션 지속 시간 (밀리초)
+        alphaAnimator2.startDelay = 2000 // 애니메이션 시작 전 대기 시간 (밀리초)
 
-        fadeOutAnimator2.addListener(object : android.animation.AnimatorListenerAdapter() {
-            override fun onAnimationEnd(animation: Animator) {
-                super.onAnimationEnd(animation)
-                fadeInAnimator2.start()
-            }
-        })
+        val animatorSet2 = AnimatorSet()
+        animatorSet2.playTogether(translateYAnimator2, alphaAnimator2)
 
-        fadeOutAnimator2.start()
+        // 애니메이션 시작
+        animatorSet2.start()
 
 
 

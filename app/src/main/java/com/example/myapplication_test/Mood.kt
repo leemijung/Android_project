@@ -15,5 +15,11 @@ class Mood  : AppCompatActivity() {
             finish()
         }
 
+        go_button.setOnClickListener {
+            startActivity(Intent(applicationContext, Results_display::class.java))
+            finish()
+        }
+
+
     }
 }
