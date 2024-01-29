@@ -1,9 +1,21 @@
 import com.google.gson.annotations.SerializedName
-import java.util.*
 
+//요청 데이터모델
+data class ChatMessage(
+    val role: String,
+    val content: String
+)
+
+data class ChatRequest(
+    val messages: List<ChatMessage>,
+    val model: String
+)
+
+
+//응답 데이터모델
 data class ChatCompletionResponse(
     @SerializedName("id") val id: String,
-    @SerializedName("object") val objectValue: String,
+    @SerializedName("object") val objectName: String,
     @SerializedName("created") val created: Long,
     @SerializedName("model") val model: String,
     @SerializedName("system_fingerprint") val systemFingerprint: String,
@@ -12,9 +24,9 @@ data class ChatCompletionResponse(
 )
 
 data class Choice(
-    @SerializedName("message") val message: Message,
     @SerializedName("index") val index: Int,
-    @SerializedName("logprobs") val logprobs: Object, // logprobs가 null일 수도 있음
+    @SerializedName("message") val message: Message,
+    @SerializedName("logprobs") val logprobs: Any?, // 로그 확률은 null 일 수 있음
     @SerializedName("finish_reason") val finishReason: String
 )
 

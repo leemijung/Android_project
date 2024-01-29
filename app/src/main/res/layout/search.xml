@@ -34,7 +34,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=" 장르/감독/배우/작품의 성격을 적어주세요"
+                    android:text="장르/감독/배우/작품의 성격을 적어주세요"
                     android:shadowColor="#33000000"
                     android:shadowDx="7.0"
                     android:shadowDy="7.0"
@@ -68,8 +68,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginTop="5dp"
-                            android:text="자유롭게 적어주세요\n
-(예) 로맨스, 봉준호, 엠마왓슨, 무서운 등 키워드를 적어주세요"
+                            android:text="자유롭게 적어주세요\n(예) 로맨스, 봉준호, 엠마왓슨, 무서운 등 키워드를 적어주세요"
                             android:textSize="7dp"
                             android:textColor="@color/white" />
                     </FrameLayout>
