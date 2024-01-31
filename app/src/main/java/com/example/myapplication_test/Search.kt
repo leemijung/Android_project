@@ -20,10 +20,10 @@ class Search  : AppCompatActivity() {
         val prompt: String,
         val maxTokens: Int
     )
-    class MainLogic {
+    class MainLogic(question: String) {
 
         val messages = listOf(
-            ChatMessage(role = "user", content = "내 이름은 이미정, 내 이름을 불러줘.")
+            ChatMessage(role = "user", content = question)
         )
 
         val request = ChatRequest(
@@ -38,7 +38,9 @@ class Search  : AppCompatActivity() {
                 override fun onResponse(call: Call<ChatCompletionResponse>, response: Response<ChatCompletionResponse>) {
                     if (response.isSuccessful) {
                         val result = response.body()
-                        // **API 응답처리 구현해야함
+                        // **API 응답처리 구현해야함**
+
+                        // 영화 api 요청 코드
 
                         Log.d("MyTag", result.toString())
 
@@ -75,15 +77,21 @@ class Search  : AppCompatActivity() {
             maxTokens = 50
         )
 
+
         //메인 기능 실행
         go_button.setOnClickListener {
 
-            //question = et_msg?.text.toString()  // question: 사용자가 입력한 문장
-            //et_msg.setText("")
+            // question: 사용자가 직접 입력한 문장
+            val question = et_msg?.text.toString()
+            et_msg.setText("")
+            val appendedText = "아무런 코멘트 없이 오로지 영화제목만 10개 말해줘."
+            val questionText = "$question $appendedText"
+
+            Log.d("MyTag", questionText)
 
 
             // GPT-3.5 Turbo API와 통신
-            val mainLogic = MainLogic()
+            val mainLogic = MainLogic(questionText)
             mainLogic.communicateWithGPT(requestData)
             startActivity(Intent(applicationContext, Results_display::class.java))
 
