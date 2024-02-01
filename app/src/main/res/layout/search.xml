@@ -63,14 +63,7 @@
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="5dp"
-                            android:text="자유롭게 적어주세요\n(예) 로맨스, 봉준호, 엠마왓슨, 무서운 등 키워드를 적어주세요"
-                            android:textSize="9dp"
-                            android:textColor="@color/white" />
+
                     </FrameLayout>
 
 
@@ -78,8 +71,8 @@
                         android:id="@+id/et_msg"
                         android:layout_width="match_parent"
                         android:layout_height="80dp"
-                        android:layout_margin="40dp"
-                        android:hint="느끼고 있는 감정이나 있었던 일을\n자유롭게 작성해주세요"
+                        android:layout_margin="20dp"
+                        android:hint="자유롭게 적어주세요\n(예) 로맨스, 봉준호, 엠마왓슨, 무서운 등 키워드를 적어주세요"
                         android:textSize="10sp"
                         android:inputType="text"
                         android:privateImeOptions="defaultInputmode=korean"

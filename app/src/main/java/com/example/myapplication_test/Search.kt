@@ -78,7 +78,7 @@ class Search  : AppCompatActivity() {
         // TMDB API 요청
         fun communicateWithTM(query: String){
 
-            val query = query
+
             val includeAdult = false
             val language = "en-US"
             val page = 1
