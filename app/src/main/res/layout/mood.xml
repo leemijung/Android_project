@@ -71,7 +71,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="80dp"
                         android:layout_margin="20dp"
-                        android:hint="느끼고 있는 감정이나 있었던 일을\n자유롭게 작성해주세요\n(예) 지루해, 행복해"
+                        android:hint="느끼고 있는 감정이나 있었던 일을\n자유롭게 작성해주세요\n(예) 지루해, 행복해 등"
                         android:textSize="10sp"
                         android:inputType="textMultiLine"/>
                 </FrameLayout>
