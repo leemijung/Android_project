@@ -26,34 +26,38 @@ class Results_display  : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.results_display)
 
-        // 영화list 어댑터
+        // 영화 리사이클러뷰 어댑터 생성
         recyclerView = findViewById(R.id.movie_recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
+        // Results_display 액티비티에서 전달된 데이터 가져오기
+        val intent = intent
+        val movieTitles = intent.getStringArrayListExtra("titles")
+        val movieOverviews = intent.getStringArrayListExtra("overviews")
+        val moviePosterpaths = intent.getStringArrayListExtra("posterpaths")
 
-        val movieTitles = Search.titles // Search파일에서 영화제목 배열 받아옴
-        val movieOverviews = Search.overviews // Search파일에서 영화제목 배열 받아옴
-        val moviePosterpaths = Search.poster_paths // Search파일에서 영화제목 배열 받아옴
+        Log.d("MyTag", "전달된 데이터 내용:$movieTitles") // 결과 정상
 
+        // 리사이클러뷰 요소 리스트 생성
         val movieList = ArrayList<Movielist>()
+        if (movieTitles != null && movieOverviews != null && moviePosterpaths != null) {
+            for (i in movieTitles.indices) {
 
-        for (i in movieTitles.indices) {
-            Log.d("MyTag", movieTitles[i])
+                // **리스트 요소 추가 필요**
+                movieList.add(Movielist(movieTitles[i], movieOverviews[i], moviePosterpaths[i]))
 
-            movieList.add(Movielist(movieTitles[i], movieOverviews[i], moviePosterpaths[i]))
-
+            }
         }
 
         adapter = MovieAdapter(movieList)
-        Log.d("MyTag", movieList.size.toString()) //왜 0이지..?
-
+        Log.d("MyTag", "전달된 데이터 사이즈:"+ movieTitles?.size.toString()) // 결과 정상
 
         recyclerView.adapter = adapter
 
 
 
 
-        // **tmdb 응답 값 처리코드 작성해야 함**
+        // tmdb 응답값 설명
         /*
     adult: 해당 영화가 성인용으로 지정되었는지를 나타내는 부울 값입니다.
     backdrop_path: 영화 배경 화면의 이미지 경로를 나타냅니다.
@@ -72,13 +76,6 @@ class Results_display  : AppCompatActivity() {
 
     */
 
-
-
-
-
-
-
-
     }
 
 
@@ -86,12 +83,12 @@ class Results_display  : AppCompatActivity() {
     class MovieAdapter(private val movies: List<Movielist>) : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
 
         inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            // results_display_list 요소와 연결
 
+            // results_display_list 요소와 연결
             val textTitle: TextView = itemView.titleTextView
             val textOverview: TextView = itemView.overviewTextView
             val imagePoster: ImageView = itemView.posterImageView
-            // **스크롤 리스트에 요소 더 추가? **
+            // **리스트 요소 추가 필요 **
 
 
         }
@@ -108,17 +105,13 @@ class Results_display  : AppCompatActivity() {
             holder.textTitle.text = movie.title
             holder.textOverview.text = movie.overview
 
-            //Log.d("MyTag", movie.title)
-            Log.d("MyTag", movie.poster_path.toString())
-
             // 포스터이미지 로드
+            // **근데 이미지 한개만 일괄적으로 뜨는 문제발생함 수정필요**
             if (!movie.poster_path.isNullOrBlank()) {
                 val posterUrl = "https://image.tmdb.org/t/p/w500${movie.poster_path}"
                 Picasso.get().load(posterUrl).into(holder.imagePoster)
             }
-            Log.d("MyTag","끝")
-
-            //else{
+            //else{ // **예외처리해야함**
             //    holder.imagePoster.setImageResource(R.drawable.placeholder_poster)
             //}
         }
@@ -126,8 +119,6 @@ class Results_display  : AppCompatActivity() {
 
 
         override fun getItemCount(): Int {
-            //Log.d("MyTag", movies.size.toString()) //왜 0이지..?
-
             return movies.size
         }
 

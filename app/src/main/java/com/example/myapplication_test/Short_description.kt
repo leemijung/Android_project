@@ -11,7 +11,7 @@ class Short_description : AppCompatActivity() {
         setContentView(R.layout.short_description)
 
         start_button.setOnClickListener {
-            startActivity(Intent(applicationContext, Selection::class.java))
+            startActivity(Intent(this, Selection::class.java))
             finish()
         }
 
