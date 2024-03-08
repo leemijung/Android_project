@@ -2,6 +2,7 @@ package com.example.myapplication_test
 
 
 import Movielist
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,6 +17,7 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.results_display_list.view.overviewTextView
 import kotlinx.android.synthetic.main.results_display_list.view.posterImageView
 import kotlinx.android.synthetic.main.results_display_list.view.titleTextView
+import kotlinx.android.synthetic.main.search.back_button
 
 class Results_display  : AppCompatActivity() {
 
@@ -25,6 +27,12 @@ class Results_display  : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.results_display)
+
+        back_button.setOnClickListener {
+            startActivity(Intent(applicationContext, Search::class.java))
+            finish()
+        }
+
 
         // 영화 리사이클러뷰 어댑터 생성
         recyclerView = findViewById(R.id.movie_recyclerView)
