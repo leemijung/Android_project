@@ -32,7 +32,7 @@ class Search  : AppCompatActivity() {
         val includeAdult = false
         val language = "ko-KR" // 한국어
         val page = 1
-        val apiKey = "95dbc652cce0ae9d409c0e8feaf97d2b"// "0e209ce1c01b25eda1f1d3b69327e72a"
+        val apiKey = "95dbc652cce0ae9d409c0e8feaf97d2b"
 
 
         return try {
