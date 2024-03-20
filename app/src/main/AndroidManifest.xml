@@ -26,6 +26,7 @@
         <activity android:name=".Mood"/>
         <activity android:name=".Search"/>
         <activity android:name=".Results_display"/>
+        <activity android:name=".MovieDetail"/>
     </application>
 
 </manifest>

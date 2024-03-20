@@ -1,6 +1,5 @@
 package com.example.myapplication_test
 
-import ChatCompletionResponse
 import ChatMessage
 import ChatRequest
 import Movie
@@ -12,11 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.android.synthetic.main.search.*
 import kotlinx.coroutines.*
-import kotlinx.coroutines.runBlocking
-import retrofit2.Call
-import retrofit2.Response
-import retrofit2.Callback
-import java.util.concurrent.CountDownLatch
 
 class Search  : AppCompatActivity() {
 
@@ -38,7 +32,7 @@ class Search  : AppCompatActivity() {
         val includeAdult = false
         val language = "ko-KR" // 한국어
         val page = 1
-        val apiKey = "0e209ce1c01b25eda1f1d3b69327e72a"
+        val apiKey = "95dbc652cce0ae9d409c0e8feaf97d2b"// "0e209ce1c01b25eda1f1d3b69327e72a"
 
 
         return try {

@@ -5,21 +5,12 @@ import Movielist
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.results_display_list.view.overviewTextView
-import kotlinx.android.synthetic.main.results_display_list.view.posterImageView
-import kotlinx.android.synthetic.main.results_display_list.view.titleTextView
 import kotlinx.android.synthetic.main.search.back_button
 
-class Results_display  : AppCompatActivity() {
+class Results_display  : AppCompatActivity(), MovieAdapter.OnItemClickListener {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: MovieAdapter
@@ -57,7 +48,7 @@ class Results_display  : AppCompatActivity() {
             }
         }
 
-        adapter = MovieAdapter(movieList)
+        adapter = MovieAdapter(movieList, this)
         Log.d("MyTag", "전달된 데이터 사이즈:"+ movieTitles?.size.toString()) // 결과 정상
 
         recyclerView.adapter = adapter
@@ -86,52 +77,12 @@ class Results_display  : AppCompatActivity() {
 
     }
 
-
-
-    class MovieAdapter(private val movies: List<Movielist>) : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
-
-        inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-            // results_display_list 요소와 연결
-            val textTitle: TextView = itemView.titleTextView
-            val textOverview: TextView = itemView.overviewTextView
-            val imagePoster: ImageView = itemView.posterImageView
-            // **리스트 요소 추가 필요 **
-
-
+    // 클릭된 아이템의 정보를 받아 상세화면으로 전환하는 메소드
+    override fun onItemClick(movie: Movielist) {
+        val intent = Intent(this, MovieDetail::class.java).apply {
+            putExtra("movie", movie) // 클릭된 아이템의 정보를 Intent에 추가하여 전달
         }
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.results_display_list, parent, false)
-            return ViewHolder(view)
-        }
-
-
-        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            val movie = movies[position]
-
-            holder.textTitle.text = movie.title
-            holder.textOverview.text = movie.overview
-
-            // 포스터이미지 로드
-            // **근데 이미지 한개만 일괄적으로 뜨는 문제발생함 수정필요**
-            if (!movie.poster_path.isNullOrBlank()) {
-                val posterUrl = "https://image.tmdb.org/t/p/w500${movie.poster_path}"
-                Picasso.get().load(posterUrl).into(holder.imagePoster)
-            }
-            //else{ // **예외처리해야함**
-            //    holder.imagePoster.setImageResource(R.drawable.placeholder_poster)
-            //}
-        }
-
-
-
-        override fun getItemCount(): Int {
-            return movies.size
-        }
-
-
+        startActivity(intent) // 상세화면 액티비티로 전환
     }
-
 
 }

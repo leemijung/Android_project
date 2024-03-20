@@ -1,28 +1,46 @@
 package com.example.myapplication_test
 
-
 import Movielist
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.results_display_list.view.*
+import kotlinx.android.synthetic.main.results_display_list.view.overviewTextView
+import kotlinx.android.synthetic.main.results_display_list.view.posterImageView
+import kotlinx.android.synthetic.main.results_display_list.view.titleTextView
 
-class MovieAdapter(private val movies: List<Movielist>) : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
+class MovieAdapter(private val movies: List<Movielist>, private val listener: OnItemClickListener) : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    private var itemClickListner: OnItemClickListener = listener // listener로 초기화
+
+
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+
         // results_display_list 요소와 연결
-
         val textTitle: TextView = itemView.titleTextView
         val textOverview: TextView = itemView.overviewTextView
         val imagePoster: ImageView = itemView.posterImageView
-        // **스크롤 리스트에 요소 더 추가? **
+        // **리스트 요소 추가 필요 **
+
+        // 리스트 클릭
+        var list_page: LinearLayout = itemView.findViewById(R.id.list_page)
 
 
+        init {
+            itemView.setOnClickListener(this)
+        }
+        override fun onClick(view: View) {
+            val position = adapterPosition
+            if (position != RecyclerView.NO_POSITION) {
+                val movie = movies[position]
+                listener.onItemClick(movie) // 아이템 클릭 리스너 호출 -> 클릭된 아이템의 정보를 MovieDetail에 전달
+            }
+        }
 
     }
 
@@ -38,21 +56,32 @@ class MovieAdapter(private val movies: List<Movielist>) : RecyclerView.Adapter<M
         holder.textTitle.text = movie.title
         holder.textOverview.text = movie.overview
 
-        //Log.d("MyTag", movie.title)
+        // 포스터이미지 로드
         Log.d("MyTag", movie.poster_path.toString())
 
-        // 포스터이미지 로드
+        // **근데 이미지 한개만 일괄적으로 뜨는 문제발생함 수정필요** 초기화문제???
         if (!movie.poster_path.isNullOrBlank()) {
             val posterUrl = "https://image.tmdb.org/t/p/w500${movie.poster_path}"
-        Picasso.get().load(posterUrl).into(holder.imagePoster)
+            Picasso.get().load(posterUrl).into(holder.imagePoster)
         }
-
-
-        //else{
+        //else{ // **예외처리해야함**
         //    holder.imagePoster.setImageResource(R.drawable.placeholder_poster)
         //}
+
+
+
+        // 리사이클러뷰 아이템클릭 리스너 (이웃 리스트 세부정보 확인)
+        holder.list_page.setOnClickListener {
+            itemClickListner.onItemClick(movie)
+        }
+
     }
 
+
+    // 리스트 클릭
+    interface OnItemClickListener {
+        fun onItemClick(movie: Movielist)
+    }
 
 
     override fun getItemCount(): Int {

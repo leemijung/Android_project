@@ -80,7 +80,7 @@
             android:shadowRadius="7.0"
             android:layout_gravity="right"
             android:textStyle="bold"
-            android:layout_marginTop="500dp"
+            android:layout_marginTop="520dp"
             android:layout_marginBottom="80dp"
             android:layout_marginRight="30dp"
             android:textColor="@color/white" />

@@ -1,5 +1,9 @@
 import com.google.gson.annotations.SerializedName
 
+import android.os.Parcel
+import android.os.Parcelable
+
+
 // gpt api 요청 데이터모델
 data class ChatMessage(
     val role: String,
@@ -63,9 +67,43 @@ data class Movie(
     @SerializedName("vote_count") val vote_count: Int
 )
 
-
+/*
 data class Movielist(
     val title: String,
     val overview: String,
     val poster_path: String?
 )
+ */
+
+
+data class Movielist(
+    val title: String,
+    val overview: String,
+    val poster_path: String) : Parcelable {
+
+    constructor(parcel: Parcel) : this(
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: ""
+    )
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(title)
+        parcel.writeString(overview)
+        parcel.writeString(poster_path)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<Movielist> {
+        override fun createFromParcel(parcel: Parcel): Movielist {
+            return Movielist(parcel)
+        }
+
+        override fun newArray(size: Int): Array<Movielist?> {
+            return arrayOfNulls(size)
+        }
+    }
+}
