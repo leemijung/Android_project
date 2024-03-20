@@ -67,14 +67,6 @@ data class Movie(
     @SerializedName("vote_count") val vote_count: Int
 )
 
-/*
-data class Movielist(
-    val title: String,
-    val overview: String,
-    val poster_path: String?
-)
- */
-
 
 data class Movielist(
     val title: String,
