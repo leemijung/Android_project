@@ -17,9 +17,12 @@ object RetrofitClient {
     }
 
 
+
+
     // tmdb api
     private const val BASE_URL_2 = "https://api.themoviedb.org/3/"
 
+    // 영화
     val instance_2: TMDBService by lazy {
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL_2)
@@ -28,6 +31,16 @@ object RetrofitClient {
             .build()
 
         retrofit.create(TMDBService::class.java)
+    }
+    // 드라마
+    val instance_3: TMDBTVService by lazy {
+        val retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL_2)
+            .addConverterFactory(GsonConverterFactory.create()) // Gson 컨버터 팩토리 추가
+            .addCallAdapterFactory(CoroutineCallAdapterFactory()) // 코루틴 추가
+            .build()
+
+        retrofit.create(TMDBTVService::class.java)
     }
 
 

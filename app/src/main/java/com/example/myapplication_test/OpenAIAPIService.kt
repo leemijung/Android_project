@@ -9,7 +9,7 @@ import retrofit2.http.Query
 interface OpenAIAPIService {
     @Headers(
         "Content-Type: application/json",
-        "Authorization: Bearer "
+        "Authorization: Bearer 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"
     )
     @POST("chat/completions")
     suspend fun getCompletion(@Body requestBody: ChatRequest): Response<ChatCompletionResponse>
@@ -24,4 +24,15 @@ interface TMDBService {
         @Query("page") page: Int,
         @Query("api_key") apiKey: String
     ): Response<TmdbSearchResponse>
+}
+
+interface TMDBTVService {
+    @GET("search/tv")
+    suspend fun searchTvs(
+        @Query("query") query: String,
+        @Query("include_adult") includeAdult: Boolean,
+        @Query("language") language: String,
+        @Query("page") page: Int,
+        @Query("api_key") apiKey: String
+    ): Response<TmdbSearchResponse2>
 }

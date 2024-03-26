@@ -3,7 +3,9 @@ package com.example.myapplication_test
 import ChatMessage
 import ChatRequest
 import Movie
+import TV
 import TmdbSearchResponse
+import TmdbSearchResponse2
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -20,6 +22,10 @@ class Search  : AppCompatActivity() {
     var overviews = mutableListOf<String>()
     var posterpaths = mutableListOf<String>()
 
+    var titles2 = mutableListOf<String>()
+    var overviews2 = mutableListOf<String>()
+    var posterpaths2 = mutableListOf<String>()
+
     // GPT-3.5 Turbo API 요청에 필요한 데이터 모델
     data class GPTRequest(
         val model: String,
@@ -27,18 +33,20 @@ class Search  : AppCompatActivity() {
         val maxTokens: Int
     )
 
+
+
     // TMDB API 요청 - 동기화된 코드
-    suspend fun communicateWithTM(query: String): Unit? {
+    suspend fun communicateWithTM_movie(query: String): Unit? { // 영화
         val includeAdult = false
         val language = "ko-KR" // 한국어
         val page = 1
-        val apiKey = ""
+        val apiKey = "95dbc652cce0ae9d409c0e8feaf97d2b"
 
 
         return try {
-            val response = RetrofitClient.instance_2.searchMovies(query, includeAdult, language, page, apiKey)
-            if (response.isSuccessful) {
-                val result = response.body().toString()
+            val response_movie = RetrofitClient.instance_2.searchMovies(query, includeAdult, language, page, apiKey)
+            if (response_movie.isSuccessful) {
+                val result = response_movie.body().toString()
                 // gpt 응답 값 전체 출력
                 Log.d("MyTag", result)
 
@@ -66,15 +74,15 @@ class Search  : AppCompatActivity() {
                     movieRegex.findAll(resultsStr).forEach { movieMatchResult ->
                         val (overview, title) = movieMatchResult.destructured
                         movies.add(Movie(false,
-                            "/fxYazFVeOCHpHwuqGuiqcCTw162.jpg",
+                            "",
                             listOf(14, 16, 10751),
                             8392,
-                            "ja",
-                            "となりのトトロ",
+                            "",
+                            "",
                             overview,
                             51.043,
-                            "/rtGDOeG9LzoerkDGZF9dnVeLppL.jpg",
-                            "1988-04-16",
+                            "",
+                            "",
                             title,
                             false,
                             8.07,
@@ -101,8 +109,79 @@ class Search  : AppCompatActivity() {
 
     }
 
+    suspend fun communicateWithTM_tv(query: String): Unit? { // 드라마
+        val includeAdult = false
+        val language = "ko-KR" // 한국어
+        val page = 1
+        val apiKey = "95dbc652cce0ae9d409c0e8feaf97d2b"
+
+
+        return try {
+            val response_tv = RetrofitClient.instance_3.searchTvs(query, includeAdult, language, page, apiKey)
+            if (response_tv.isSuccessful) {
+                val result = response_tv.body().toString()
+                // gpt 응답 값 전체 출력
+                Log.d("MyTag", result)
+
+
+                // 응답문자열 파싱 -> 데이터추출
+                fun parseTmdbSearchResponse(responseString: String): TmdbSearchResponse2 {
+                    val regex = Regex("""TmdbSearchResponse2\(page=(\d+), results=\[(.*?)\], total_pages=(\d+), total_results=(\d+)\)""")
+
+                    val matchResult = regex.find(responseString)
+                        ?: throw IllegalArgumentException("Invalid response string format")
+
+                    val (pageStr, resultsStr, totalPagesStr, totalResultsStr) = matchResult.destructured
+
+                    val page = pageStr.toInt()
+                    val totalPages = totalPagesStr.toInt()
+                    val totalResults = totalResultsStr.toInt()
+
+                    // 결과 목록 파싱
+                    val tvs = mutableListOf<TV>()
+                    val tvRegex = Regex("""overview=(.*?),.*?name=(.*?),""")
+
+                    tvRegex.findAll(resultsStr).forEach { tvMatchResult ->
+                        val (overview, name) = tvMatchResult.destructured
+                        tvs.add(TV(false,
+                            "",
+                            listOf(14, 16, 10751),
+                            8392,
+                            listOf("", "", ""),
+                            "",
+                            "",
+                            overview,
+                            8.07,
+                            "",
+                            "",
+                            name,
+                            8.07,
+                            7441))
+                    }
+
+                    return TmdbSearchResponse2(page, tvs, totalPages, totalResults)
+                }
+
+                // 응답 문자열을 파싱하여 TmdbSearchResponse 객체 생성
+                val tmdbSearchResponse: TmdbSearchResponse2 = parseTmdbSearchResponse(result)
+                tmdbSearchResponse.let { handleTmdbResponse2(it) }  // 배열에 값 넣는 함수
+
+
+
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            Log.e("MyTag", "Error communicating with TM: ${e.message}", e)
+            null
+        }
+
+
+    }
+
+
     // 배열에 값 넣기
-    fun handleTmdbResponse(response: TmdbSearchResponse) {
+    fun handleTmdbResponse(response: TmdbSearchResponse) { // 영화
         response.let {
             for (movie in it.results) {
                 titles.add(movie.title)
@@ -113,23 +192,43 @@ class Search  : AppCompatActivity() {
             }
         }
     }
+    fun handleTmdbResponse2(response: TmdbSearchResponse2) { // 드라마
+        response.let {
+            for (tv in it.results) {
+                titles2.add(tv.name)
+                overviews2.add(tv.overview)
+                posterpaths2.add(tv.poster_path ?: "")
+                // **더 추가 필요**
+
+            }
+        }
+    }
 
 
 
-    inner class MainLogic(question: String) {
+    inner class MainLogic(question: String, question2: String) {
 
-        val messages = listOf(
+        val messages = listOf( // 영화 질문
             ChatMessage(role = "user", content = question)
         )
-
         val request = ChatRequest(
             messages = messages,
             model = "gpt-3.5-turbo"
         )
 
+        val messages2 = listOf( // 드라마 질문
+            ChatMessage(role = "user", content = question2)
+        )
+        val request2 = ChatRequest(
+            messages = messages2,
+            model = "gpt-3.5-turbo"
+        )
+
+        val intent = Intent(this@Search, Results_display::class.java)
 
         // API와 통신하는 함수 - 동기화된 코드
         suspend fun communicateWithAPI(requestData: GPTRequest) {
+            // 영화
             try {
                 val response = RetrofitClient.instance.getCompletion(request)
                 if (response.isSuccessful) {
@@ -144,25 +243,76 @@ class Search  : AppCompatActivity() {
                     // 코루틴 이용해서 동기화
                     val deferredList = movieTitles.map { query ->
                         lifecycleScope.async {
-                            communicateWithTM(query)
+                            communicateWithTM_movie(query)
                         }
                     }
 
                     // 모든 communicateWithTM 호출이 완료될 때까지 대기
                     deferredList.forEach { deferred ->
-                        deferred.await()
+                        try {
+                            deferred.await()
+                        } catch (e: CancellationException) {
+                            Log.e("MyTag", "Coroutine was cancelled", e)
+                        }
                     }
+
 
                     // 모든 호출이 완료된 후에 로그를 출력
                     Log.d("MyTag", "타이틀 사이즈: "+titles.size) // 결과 정상
                     Log.d("MyTag", "타이틀 내용: $titles") // 결과 정상
 
 
-                    if (titles.size >= 5) { // **숫자 조절필요** 현재 gpt에 10개를 요청했으니까 그것보단 적어야 함
-                        val intent = Intent(this@Search, Results_display::class.java)
+                    if (titles.size >= 5) {
                         intent.putStringArrayListExtra("titles", ArrayList(titles))
                         intent.putStringArrayListExtra("overviews", ArrayList(overviews))
                         intent.putStringArrayListExtra("posterpaths", ArrayList(posterpaths))
+                    }
+                } else {
+                    val errorMessage = response.errorBody()?.string()
+                    Log.d("MyTag", "Failed: $errorMessage")
+                }
+            } catch (e: Exception) {
+                Log.e("MyTag", "Error communicating with API: ${e.message}", e)
+            }
+
+            // 드라마
+            try {
+                val response = RetrofitClient.instance.getCompletion(request2)
+                if (response.isSuccessful) {
+                    val result = response.body()
+                    // gpt 응답 값 전체 출력
+                    Log.d("MyTag", result.toString())
+
+                    val tvTitles = result?.choices!![0].message.content.split("\n")
+                        .map { it.substringAfter(". ").trim() } // 각 줄에서 번호와 드라마 제목을 분리하고 드라마 제목만 추출
+                        .toTypedArray()
+
+                    // 코루틴 이용해서 동기화
+                    val deferredList = tvTitles.map { query ->
+                        lifecycleScope.async {
+                            communicateWithTM_tv(query)
+                        }
+                    }
+
+                    // 모든 communicateWithTM 호출이 완료될 때까지 대기
+                    deferredList.forEach { deferred ->
+                        try {
+                            deferred.await()
+                        } catch (e: CancellationException) {
+                            Log.e("MyTag", "Coroutine was cancelled", e)
+                        }
+                    }
+
+
+                    // 모든 호출이 완료된 후에 로그를 출력
+                    Log.d("MyTag", "타이틀 사이즈: "+titles2.size) // 결과 정상
+                    Log.d("MyTag", "타이틀 내용: $titles2") // 결과 정상
+
+
+                    if (titles2.size >= 5) {
+                        intent.putStringArrayListExtra("titles2", ArrayList(titles2))
+                        intent.putStringArrayListExtra("overviews2", ArrayList(overviews2))
+                        intent.putStringArrayListExtra("posterpaths2", ArrayList(posterpaths2))
                         startActivity(intent) // Results_display 화면으로 넘어감
                         finish()
                     }
@@ -174,8 +324,6 @@ class Search  : AppCompatActivity() {
                 Log.e("MyTag", "Error communicating with API: ${e.message}", e)
             }
         }
-
-
     }
 
 
@@ -204,14 +352,22 @@ class Search  : AppCompatActivity() {
             // question: 사용자가 직접 입력한 문장
             val question = et_msg?.text.toString()
             et_msg.setText("")
-            val appendedText = "아무런 코멘트 없이 오로지 영화제목만 10개 말해줘."
-            val questionText = "$question $appendedText"
+            val appendedText_movie = "아무런 코멘트 없이 오로지 영화제목만 10개 말해줘."
+            val questionText_movie = "$question $appendedText_movie"
 
-            Log.d("MyTag", questionText)
+            val appendedText_tv = "아무런 코멘트 없이 오로지 드라마제목만 10개 말해줘."
+            val questionText_tv = "$question $appendedText_tv"
+
+
+
+
+            Log.d("MyTag", questionText_movie)
+            Log.d("MyTag", questionText_tv)
+
 
 
             // API와 통신
-            val mainLogic = MainLogic(questionText)
+            val mainLogic = MainLogic(questionText_movie, questionText_tv)
 
             GlobalScope.launch {
                 mainLogic.communicateWithAPI(requestData)

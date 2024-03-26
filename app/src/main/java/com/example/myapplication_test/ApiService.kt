@@ -43,7 +43,7 @@ data class Usage(
 
 
 
-// tmdb api 응답 데이터모델
+// tmdb api 응답 영화 데이터모델
 data class TmdbSearchResponse(
     @SerializedName("page") val page: Int,
     @SerializedName("results") val results: List<Movie>,
@@ -99,3 +99,62 @@ data class Movielist(
         }
     }
 }
+
+
+data class Tvlist(
+    val title: String,
+    val overview: String,
+    val poster_path: String) : Parcelable {
+
+    constructor(parcel: Parcel) : this(
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: ""
+    )
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(title)
+        parcel.writeString(overview)
+        parcel.writeString(poster_path)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<Tvlist> {
+        override fun createFromParcel(parcel: Parcel): Tvlist {
+            return Tvlist(parcel)
+        }
+
+        override fun newArray(size: Int): Array<Tvlist?> {
+            return arrayOfNulls(size)
+        }
+    }
+}
+
+
+
+// tmdb api 드라마 응답 데이터모델
+data class TmdbSearchResponse2(
+    @SerializedName("page") val page: Int,
+    @SerializedName("results") val results: List<TV>,
+    @SerializedName("total_pages") val total_pages: Int,
+    @SerializedName("total_results") val total_results: Int
+)
+data class TV(
+    @SerializedName("adult") val adult: Boolean,
+    @SerializedName("backdrop_path") val backdrop_path: String?,
+    @SerializedName("genre_ids") val genre_ids: List<Int>,
+    @SerializedName("id") val id: Int,
+    @SerializedName("origin_country") val origin_country: List<String>,
+    @SerializedName("original_language") val original_language: String,
+    @SerializedName("original_name") val original_name: String,
+    @SerializedName("overview") val overview: String,
+    @SerializedName("popularity") val popularity: Double,
+    @SerializedName("poster_path") val poster_path: String?,
+    @SerializedName("first_air_date") val first_air_date: String,
+    @SerializedName("name") val name: String,
+    @SerializedName("vote_average") val vote_average: Double,
+    @SerializedName("vote_count") val vote_count: Int
+)
