@@ -9,7 +9,7 @@ import retrofit2.http.Query
 interface OpenAIAPIService {
     @Headers(
         "Content-Type: application/json",
-        "Authorization: Bearer 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"
+        "Authorization: Bearer "
     )
     @POST("chat/completions")
     suspend fun getCompletion(@Body requestBody: ChatRequest): Response<ChatCompletionResponse>
