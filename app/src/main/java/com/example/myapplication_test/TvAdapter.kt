@@ -57,7 +57,7 @@ class TvAdapter(private val tvs: List<Tvlist>, private val listener: OnItemClick
         holder.textOverview_tv.text = tv.overview
 
         // 포스터이미지 로드
-        Log.d("MyTag", tv.poster_path.toString())
+        Log.d("MyTag", tv.poster_path)
 
         // **근데 이미지 한개만 일괄적으로 뜨는 문제발생함 수정필요** 초기화문제???
         if (!tv.poster_path.isNullOrBlank()) {

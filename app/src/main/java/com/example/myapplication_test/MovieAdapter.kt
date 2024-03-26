@@ -57,7 +57,7 @@ class MovieAdapter(private val movies: List<Movielist>, private val listener: On
         holder.textOverview_movie.text = movie.overview
 
         // 포스터이미지 로드
-        Log.d("MyTag", movie.poster_path.toString())
+        Log.d("MyTag", movie.poster_path)
 
         // **근데 이미지 한개만 일괄적으로 뜨는 문제발생함 수정필요** 초기화문제???
         if (!movie.poster_path.isNullOrBlank()) {
