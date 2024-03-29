@@ -36,3 +36,9 @@ interface TMDBTVService {
         @Query("api_key") apiKey: String
     ): Response<TmdbSearchResponse2>
 }
+
+interface KorBERTServer {
+    @Headers("Content-Type: application/json")
+    @POST("predict")
+    fun getPrediction(@Body request: PredictionRequest): Call<PredictionResponse>
+}

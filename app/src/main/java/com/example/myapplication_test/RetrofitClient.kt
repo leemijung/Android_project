@@ -17,8 +17,6 @@ object RetrofitClient {
     }
 
 
-
-
     // tmdb api
     private const val BASE_URL_2 = "https://api.themoviedb.org/3/"
 
@@ -32,6 +30,7 @@ object RetrofitClient {
 
         retrofit.create(TMDBService::class.java)
     }
+
     // 드라마
     val instance_3: TMDBTVService by lazy {
         val retrofit = Retrofit.Builder()
@@ -41,6 +40,20 @@ object RetrofitClient {
             .build()
 
         retrofit.create(TMDBTVService::class.java)
+    }
+
+
+
+    // ** KorBERT - flask server **
+    private const val BASE_URL_3 = "http://127.0.0.1:5000/todos"
+
+    val instance_4: KorBERTServer by lazy {
+        val retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL_3)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        retrofit.create(KorBERTServer::class.java)
     }
 
 

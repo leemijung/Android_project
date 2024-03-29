@@ -32,6 +32,8 @@ class TvDetail : AppCompatActivity() {
         tv?.let {
             findViewById<TextView>(R.id.detail_titleTextView).text = it.title // 타이틀 설정
             findViewById<TextView>(R.id.detail_overviewTextView).text = it.overview // 미리뷰 설정
+            findViewById<TextView>(R.id.detail_popularityTextView).text = it.popularitys // 인기도 설정
+            findViewById<TextView>(R.id.detail_firstairdateTextView).text = it.first_air_date // 방영일 설정
 
             // 포스터이미지 설정
             val topColor = Color.parseColor("#FF000D6B") // 투명한 색상

@@ -20,6 +20,25 @@ class MovieAdapter(private val movies: List<Movielist>, private val listener: On
 
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+        // tmdb 응답값 설명
+        /*
+    adult: 해당 영화가 성인용으로 지정되었는지를 나타내는 부울 값입니다.
+    backdrop_path: 영화 배경 화면의 이미지 경로를 나타냅니다.
+    genre_ids: 해당 영화의 장르 식별자(ID) 목록을 나타냅니다.
+    id: 해당 영화의 고유 식별자(ID)를 나타냅니다.
+    original_language: 해당 영화의 원본 언어를 나타냅니다.
+    original_title: 해당 영화의 원본 제목을 나타냅니다.
+    overview: 해당 영화의 개요(줄거리)를 나타냅니다.
+    popularity: 해당 영화의 인기도를 나타내는 수치입니다.
+    poster_path: 영화 포스터의 이미지 경로를 나타냅니다.
+    release_date: 해당 영화의 개봉일을 나타냅니다.
+    title: 해당 영화의 제목을 나타냅니다.
+    video: 해당 영화에 비디오가 있는지 여부를 나타내는 부울 값입니다.
+    vote_average: 해당 영화의 평균 평점을 나타내는 수치입니다.
+    vote_count: 해당 영화에 대한 평가(투표) 수를 나타내는 정수 값입니다.
+
+    */
+
 
         // results_display_list 요소와 연결
         val textTitle_movie: TextView = itemView.titleTextView
