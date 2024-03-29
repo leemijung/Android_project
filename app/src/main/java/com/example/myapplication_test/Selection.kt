@@ -22,7 +22,7 @@ class Selection  : AppCompatActivity() {
         ballon1.alpha = 0f
         // ObjectAnimator를 사용하여 alpha 속성을 변경하여 나타나는 애니메이션 생성
         val translateYAnimator1 = ObjectAnimator.ofFloat(ballon1, "translationY", 1000f, 0f)
-        translateYAnimator1.duration = 4000 // 애니메이션 지속 시간 (밀리초)
+        translateYAnimator1.duration = 2000 // 애니메이션 지속 시간 (밀리초)
         val alphaAnimator1 = ObjectAnimator.ofFloat(ballon1, "alpha", 0f, 1f)
         alphaAnimator1.duration = 2000 // 애니메이션 지속 시간 (밀리초)
 

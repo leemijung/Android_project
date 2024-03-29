@@ -21,10 +21,14 @@ class Search  : AppCompatActivity() {
     var titles = mutableListOf<String>()
     var overviews = mutableListOf<String>()
     var posterpaths = mutableListOf<String>()
+    var popularity = mutableListOf<String>()
+    var release_date = mutableListOf<String>()
 
     var titles2 = mutableListOf<String>()
     var overviews2 = mutableListOf<String>()
     var posterpaths2 = mutableListOf<String>()
+    var popularity2 = mutableListOf<String>()
+    var first_air_date = mutableListOf<String>()
 
     // GPT-3.5 Turbo API 요청에 필요한 데이터 모델
     data class GPTRequest(
@@ -69,10 +73,11 @@ class Search  : AppCompatActivity() {
 
                     // 결과 목록 파싱
                     val movies = mutableListOf<Movie>()
-                    val movieRegex = Regex("""overview=(.*?),.*?title=(.*?),""")
+                    val movieRegex = Regex("""overview=(.*?),.*?popularity=(.*?),.*?poster_path=(.*?),.*?release_date=(.*?),.*?title=(.*?),""")
 
                     movieRegex.findAll(resultsStr).forEach { movieMatchResult ->
-                        val (overview, title) = movieMatchResult.destructured
+                        val (overview, popularityStr, poster_path, release_date, title) = movieMatchResult.destructured
+                        val popularity = popularityStr.toDoubleOrNull() ?: 0.0 // 문자열을 Double로 변환하거나 기본값으로 설정
                         movies.add(Movie(false,
                             "",
                             listOf(14, 16, 10751),
@@ -80,9 +85,9 @@ class Search  : AppCompatActivity() {
                             "",
                             "",
                             overview,
-                            51.043,
-                            "",
-                            "",
+                            popularity,
+                            poster_path,
+                            release_date,
                             title,
                             false,
                             8.07,
@@ -139,10 +144,11 @@ class Search  : AppCompatActivity() {
 
                     // 결과 목록 파싱
                     val tvs = mutableListOf<TV>()
-                    val tvRegex = Regex("""overview=(.*?),.*?name=(.*?),""")
+                    val tvRegex = Regex("""overview=(.*?),.*?popularity=(.*?),.*?poster_path=(.*?),.*?first_air_date=(.*?),.*?name=(.*?),""")
 
                     tvRegex.findAll(resultsStr).forEach { tvMatchResult ->
-                        val (overview, name) = tvMatchResult.destructured
+                        val (overview, popularityStr, poster_path, first_air_date, name) = tvMatchResult.destructured
+                        val popularity = popularityStr.toDoubleOrNull() ?: 0.0 // 문자열을 Double로 변환하거나 기본값으로 설정
                         tvs.add(TV(false,
                             "",
                             listOf(14, 16, 10751),
@@ -151,9 +157,9 @@ class Search  : AppCompatActivity() {
                             "",
                             "",
                             overview,
-                            8.07,
-                            "",
-                            "",
+                            popularity,
+                            poster_path,
+                            first_air_date,
                             name,
                             8.07,
                             7441))
@@ -187,6 +193,8 @@ class Search  : AppCompatActivity() {
                 titles.add(movie.title)
                 overviews.add(movie.overview)
                 posterpaths.add(movie.poster_path ?: "")
+                popularity.add(movie.popularity.toString())
+                release_date.add(movie.release_date)
                 // **더 추가 필요**
 
             }
@@ -198,6 +206,8 @@ class Search  : AppCompatActivity() {
                 titles2.add(tv.name)
                 overviews2.add(tv.overview)
                 posterpaths2.add(tv.poster_path ?: "")
+                popularity2.add(tv.popularity.toString())
+                first_air_date.add(tv.first_air_date)
                 // **더 추가 필요**
 
             }
@@ -262,10 +272,13 @@ class Search  : AppCompatActivity() {
                     Log.d("MyTag", "타이틀 내용: $titles") // 결과 정상
 
 
-                    if (titles.size >= 5) {
+                    if (titles.size >= 0) {
                         intent.putStringArrayListExtra("titles", ArrayList(titles))
                         intent.putStringArrayListExtra("overviews", ArrayList(overviews))
                         intent.putStringArrayListExtra("posterpaths", ArrayList(posterpaths))
+                        intent.putStringArrayListExtra("popularitys", ArrayList(popularity))
+                        intent.putStringArrayListExtra("release_dates", ArrayList(release_date))
+
                     }
                 } else {
                     val errorMessage = response.errorBody()?.string()
@@ -309,10 +322,13 @@ class Search  : AppCompatActivity() {
                     Log.d("MyTag", "타이틀 내용: $titles2") // 결과 정상
 
 
-                    if (titles2.size >= 5) {
+                    if (titles2.size >= 0) {
                         intent.putStringArrayListExtra("titles2", ArrayList(titles2))
                         intent.putStringArrayListExtra("overviews2", ArrayList(overviews2))
                         intent.putStringArrayListExtra("posterpaths2", ArrayList(posterpaths2))
+                        intent.putStringArrayListExtra("popularitys2", ArrayList(popularity2))
+                        intent.putStringArrayListExtra("first_air_dates", ArrayList(first_air_date))
+
                         startActivity(intent) // Results_display 화면으로 넘어감
                         finish()
                     }

@@ -71,9 +71,13 @@ data class Movie(
 data class Movielist(
     val title: String,
     val overview: String,
-    val poster_path: String) : Parcelable {
+    val poster_path: String,
+    val popularitys: String,
+    val release_date: String) : Parcelable {
 
     constructor(parcel: Parcel) : this(
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: ""
@@ -83,6 +87,8 @@ data class Movielist(
         parcel.writeString(title)
         parcel.writeString(overview)
         parcel.writeString(poster_path)
+        parcel.writeString(popularitys)
+        parcel.writeString(release_date)
     }
 
     override fun describeContents(): Int {
@@ -104,9 +110,13 @@ data class Movielist(
 data class Tvlist(
     val title: String,
     val overview: String,
-    val poster_path: String) : Parcelable {
+    val poster_path: String,
+    val popularitys: String,
+    val first_air_date: String) : Parcelable {
 
     constructor(parcel: Parcel) : this(
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: ""
@@ -116,6 +126,8 @@ data class Tvlist(
         parcel.writeString(title)
         parcel.writeString(overview)
         parcel.writeString(poster_path)
+        parcel.writeString(popularitys)
+        parcel.writeString(first_air_date)
     }
 
     override fun describeContents(): Int {

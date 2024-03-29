@@ -25,6 +25,7 @@ class TvAdapter(private val tvs: List<Tvlist>, private val listener: OnItemClick
         val textTitle_tv: TextView = itemView.titleTextView
         val textOverview_tv: TextView = itemView.overviewTextView
         val imagePoster_tv: ImageView = itemView.posterImageView
+
         // **리스트 요소 추가 필요 **
 
         // 리스트 클릭
@@ -38,7 +39,7 @@ class TvAdapter(private val tvs: List<Tvlist>, private val listener: OnItemClick
             val position = adapterPosition
             if (position != RecyclerView.NO_POSITION) {
                 val tv = tvs[position]
-                listener.onItemClick(tv) // 아이템 클릭 리스너 호출 -> 클릭된 아이템의 정보를 MovieDetail에 전달
+                listener.onItemClick(tv) // 아이템 클릭 리스너 호출 -> 클릭된 아이템의 정보를 TvDetail에 전달
             }
         }
 
@@ -59,7 +60,6 @@ class TvAdapter(private val tvs: List<Tvlist>, private val listener: OnItemClick
         // 포스터이미지 로드
         Log.d("MyTag", tv.poster_path)
 
-        // **근데 이미지 한개만 일괄적으로 뜨는 문제발생함 수정필요** 초기화문제???
         if (!tv.poster_path.isNullOrBlank()) {
             val posterUrl = "https://image.tmdb.org/t/p/w500${tv.poster_path}"
             Picasso.get().load(posterUrl).into(holder.imagePoster_tv)
