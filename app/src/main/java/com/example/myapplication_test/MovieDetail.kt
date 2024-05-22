@@ -23,7 +23,7 @@ class MovieDetail : AppCompatActivity() {
         setContentView(R.layout.movie_detail)
 
         back_button.setOnClickListener {
-            startActivity(Intent(applicationContext, Results_display::class.java))
+            startActivity(Intent(applicationContext, Selection::class.java))
             finish()
         }
 

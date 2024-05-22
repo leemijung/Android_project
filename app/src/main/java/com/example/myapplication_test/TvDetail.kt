@@ -23,7 +23,7 @@ class TvDetail : AppCompatActivity() {
         setContentView(R.layout.tv_detail)
 
         back_button.setOnClickListener {
-            startActivity(Intent(applicationContext, Results_display::class.java))
+            startActivity(Intent(applicationContext, Selection::class.java))
             finish()
         }
 
